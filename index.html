@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Product Showcase</title>
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Product Showcase</title>
+  
   <style>
      html, body {
       touch-action: manipulation;
+      overflow-x: hidden;
+    }
+       html, body {
+      touch-action: none; /* disables all gestures (pinch, zoom, etc.) */
       overflow-x: hidden;
     }
 
@@ -15,7 +19,7 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #c30d0d;
+      background-color: #f4f2f2;
     }
 
     .scrollmenu {
@@ -199,6 +203,36 @@
     e.preventDefault();
   });
 </script>
+<script>
+  // Block zoom with ctrl+scroll
+  document.addEventListener('wheel', function(e) {
+    if (e.ctrlKey) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  // Block mobile gesture zoom (iOS)
+  document.addEventListener('gesturestart', function(e) {
+    e.preventDefault();
+  });
+  document.addEventListener('gesturechange', function(e) {
+    e.preventDefault();
+  });
+  document.addEventListener('gestureend', function(e) {
+    e.preventDefault();
+  });
+
+  // Optional: Prevent double-tap zoom (mobile)
+  let lastTouchEnd = 0;
+  document.addEventListener('touchend', function(event) {
+    const now = new Date().getTime();
+    if (now - lastTouchEnd <= 300) {
+      event.preventDefault();
+    }
+    lastTouchEnd = now;
+  }, false);
+</script>
+
 
   <!-- You can repeat the same section with other categories -->
 </body>
