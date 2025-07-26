@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+ <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   <title>Product Showcase</title>
   
   <style>
@@ -10,6 +10,17 @@
       touch-action: manipulation;
       overflow-x: hidden;
     }
+        html, body {
+      margin: 0;
+      padding: 0;
+      touch-action: none;
+      overflow-x: hidden;
+      overscroll-behavior: none;
+      transform: scale(1);
+      transform-origin: top left;
+      font-family: sans-serif;
+    }
+
        html, body {
       touch-action: none; /* disables all gestures (pinch, zoom, etc.) */
       overflow-x: hidden;
@@ -204,34 +215,24 @@
   });
 </script>
 <script>
-  // Block zoom with ctrl+scroll
-  document.addEventListener('wheel', function(e) {
-    if (e.ctrlKey) {
-      e.preventDefault();
-    }
+  document.addEventListener('wheel', function (e) {
+    if (e.ctrlKey) e.preventDefault();
   }, { passive: false });
 
-  // Block mobile gesture zoom (iOS)
-  document.addEventListener('gesturestart', function(e) {
-    e.preventDefault();
-  });
-  document.addEventListener('gesturechange', function(e) {
-    e.preventDefault();
-  });
-  document.addEventListener('gestureend', function(e) {
-    e.preventDefault();
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(evt => {
+    document.addEventListener(evt, e => e.preventDefault(), { passive: false });
   });
 
-  // Optional: Prevent double-tap zoom (mobile)
   let lastTouchEnd = 0;
-  document.addEventListener('touchend', function(event) {
-    const now = new Date().getTime();
+  document.addEventListener('touchend', function (e) {
+    const now = (new Date()).getTime();
     if (now - lastTouchEnd <= 300) {
-      event.preventDefault();
+      e.preventDefault();
     }
     lastTouchEnd = now;
   }, false);
 </script>
+    
 
 
   <!-- You can repeat the same section with other categories -->
